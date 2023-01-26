@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"
+    integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+</head>
+
+<body id="myBody">
+    <!-- Upload form --><div class="header">
+        <img class="image" src="/stylesheets/MathsGuru-logos_white.png" style="height: 250px;margin-top: -80px;">
+</div>
+</br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel" style="width: 80%;margin: auto;">
+                <div class="panel-heading">
+                    <div class="row" style="display: flex;width: 100%;">
+                        <div class="col col-sm-3 col-xs-12" style="padding: 10px 10px;width: 20%;">
+                            <h4 class="title">Data <span>List</span></h4>
+                        </div>
+                        <div class="col-sm-9 col-xs-12 text-right" style="width: 80%;">
+                            <div class="btn_group" style="display: flex; padding: 10px 10px;flex-flow: row-reverse;">
+                                <form onsubmit="FileSearch()" method="GET">
+                            <input type="text" id="searchFile" style="width: 40%" class="form-control" placeholder="Search">
+                            <input type="submit" value="search">
+                        </form>
+                                <form id="form-gridfs" style="display: flex;margin-right: 2%;padding: 10px 10px;">
+                                    <input id="file-input" type="file" name="file" accept="*" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table id="searchtable" class="table" style="margin: auto; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Size</th>
+                                <th>Upload Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% Result.forEach(function(result) { %>
+                                <tr>
+                                    <td>
+                                        <%= result.filename.toUpperCase() %>
+                                    </td>
+                                    <td>
+                                        <span><%= (result.length / (1024*1024)).toFixed(2) %> MB</span>
+                                    </td>
+                                    <td >
+                                        <%= result.uploadDate.toUTCString() %>
+                                    </td>
+                                    <td>
+                                        <ul class="action-list">
+                                            <li><a href="/Download?file=<%= result.filename %>" data-tip="Download" style="padding-left: 20px;"><i class="fa fa-download"></i></a></li>
+                                            <li><a href="/Delete?file=<%= result.filename %>" data-tip="delete"><i class="fa fa-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% }) %>    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Javascript functions -->
+    <script src="../public/JQuery/jquery.js"></script>
+    <script type="text/javascript">
+       $(document).ready(function () {
+            $("#file-input").on("change", uploadFile);
+        });
+        function uploadFile() {
+            $.ajax({
+                url: "/upload",
+                type: "POST",
+                data: new FormData($("#form-gridfs")[0]),
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function () {
+                    alert("File uploaded succesfully!");
+                    window.location.reload();
+                },
+                error: function () {
+                    alert(
+                        "Oops something went wrong! File not uploaded!!");
+                }
+            });
+        }
+        function FileSearch() {
+            var filename = $("#searchFile").val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/search',
+                    data: {filename: filename},
+                    success: function (html) {
+                        alert("success");
+                    },
+                    error: function (html) {
+                        alert("error");
+                    }
+            });
+        }
+</script>
+</body>
+
+</html>

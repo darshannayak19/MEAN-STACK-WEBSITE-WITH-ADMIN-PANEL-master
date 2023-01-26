@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/stylesheets/login.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"
+            integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <form class="box" id="pop-up-login" method="POST">
+                            <h1>Login</h1>
+                            <p class="text-muted" style="color: white;"> Please enter your login and password!</p> <input type="text" id="email-log" name=""
+                                placeholder="Username"> <input type="password" id="password-log" name="" placeholder="Password"> <a
+                                class="forgot text-muted" style="color: white;" href="#">Forgot password?</a> <input type="submit" name=""
+                                value="Login" href="#">
+                            <div class="col-md-12">
+                                <ul class="social-network social-circle">
+                                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+                                    </li>
+                                    <li><a href="#" class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fab fa-google-plus-g"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+  $(document).ready(function () {
+        $("#pop-up-login").submit(function (event) {
+            event.preventDefault();
+            var email = $("#email-log").val();
+            var password = $("#password-log").val();
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: {email:email,password:password},
+                success: function (response) {
+                    alert("success");
+                    window.location.href="admins";
+                },
+                error: function (response) {
+                    alert("Wrong EmailID or Password!");
+                    window.location.href="login";
+                }
+            })
+        });
+    });
+    </script>
+</html>
