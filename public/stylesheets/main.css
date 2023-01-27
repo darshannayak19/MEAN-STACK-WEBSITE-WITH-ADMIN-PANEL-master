@@ -136,8 +136,9 @@ body{
   padding-bottom: 40px;
 }
 iframe{
-  width: 400px;
+  width: 320px;
   height: 170px;
+  border-radius: 50px;
 }
 .columns{
   margin: auto;
