@@ -38,5 +38,8 @@
     "react-scripts": "^3.4.1",
     "serve-favicon": "~2.4.5",
     "table": "^6.7.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
   }
 }
